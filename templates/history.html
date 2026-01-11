@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comparison History</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="history-container">
+        <h1>Your Comparison History</h1>
+
+        <div class="history-table-container">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Image 1</th>
+                        <th>Image 2</th>
+                        <th>Similarity</th>
+                        <th>Date Compared</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if history %}
+                        {% for entry in history %}
+                        <tr>
+                            <td>
+                                <div class="history-image-container">
+                                    <button class="image-button"
+                                            onclick="openModal(this.querySelector('img'))"
+                                            aria-label="Open first in modal">
+                                        <img src="/uploads/{{ entry[0] }}"
+                                             class="history-image"
+                                             alt="{{ entry[0].split('_')[-1] }}">
+                                    </button>
+                                    <small>{{ entry[0].split('_')[-1] }}</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="history-image-container">
+                                    <button class="image-button"
+                                            onclick="openModal(this.querySelector('img'))"
+                                            aria-label="Open second in modal">
+                                        <img src="/uploads/{{ entry[1] }}"
+                                             class="history-image"
+                                             alt="{{ entry[1].split('_')[-1] }}">
+                                    </button>
+                                    <small>{{ entry[1].split('_')[-1] }}</small>
+                                </div>
+                            </td>
+                            <td class="similarity-cell {% if entry[2] > 75 %}similarity-high{% elif entry[2] > 50 %}similarity-medium{% else %}similarity-low{% endif %}">
+                                {{ entry[2] }}%
+                            </td>
+                            <td class="date-cell">
+                                {{ entry[3].strftime('%b %d, %Y %I:%M %p') }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 30px;">
+                                No comparison history found. Start by comparing some images!
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="/dashboard" class="back-btn">Back to Dashboard</a>
+    </div>
+
+    <!-- Modal for enlarged images -->
+    <div id="imageModal" class="modal">
+        <button class="close" onclick="closeModal()" aria-label="Close modal">&times;</button>
+        <img class="modal-content" id="modalImage" alt="Preview">
+    </div>
+
+    <script>
+        function openModal(img) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.style.display = "block";
+            modalImg.src = img.src;
+            modalImg.alt = img.alt;
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>

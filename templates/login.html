@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <title>Login</title>
+    <script>
+        function showPopup(message) {
+            alert(message);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Login</h2>
+        <form method="POST">
+            <label for="username">Username:</label>
+            <input type="text" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" required>
+
+            <button type="submit">Login</button>
+            <a href="/register">new user?</a>
+
+        </form>
+
+        {% with messages = get_flashed_messages(category_filter=['error']) %}
+        {% if messages %}
+        <script>
+            showPopup("{{ messages[0] }}");
+        </script>
+        {% endif %}
+        {% endwith %}
+    </div>
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>

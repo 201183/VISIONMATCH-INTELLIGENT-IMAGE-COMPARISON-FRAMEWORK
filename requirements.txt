@@ -1,0 +1,7 @@
+Flask==2.3.2
+Flask-MySQLdb==1.0.1
+opencv-python==4.8.0.76
+scikit-image==0.21.0
+Flask-MySQLdb==1.0.1
+werkzeug==2.0.0
+scikit-image
